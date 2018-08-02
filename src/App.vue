@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <link href="https://fonts.googleapis.com/css?family=Exo" rel="stylesheet">
     <router-view/>
   </div>
 </template>
@@ -15,5 +16,15 @@ html, body {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+}
+
+#app {
+  background-color: #0F2C44;
+  /* font-family: 'Quattrocento Sans', sans-serif; */
+  /* font-family: 'Noto Sans', sans-serif; */
+  font-family: 'Exo', sans-serif;
+  height: 750px;
+  max-height: 750px;
+  width: 100%;
 }
 </style>

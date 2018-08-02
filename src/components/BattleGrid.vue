@@ -1,7 +1,9 @@
 <template>
   <div class="grid">
-    <table id="grid-table">
-    </table>
+    <div class="board">
+      <table id="grid-table">
+      </table>
+    </div>
   </div>
 </template>
 
@@ -24,8 +26,6 @@ export default {
       if (height !== undefined) {
         this.height = height;
       }
-      console.log(this.width);
-      console.log(this.height);
       this.generateTable();
     });
   },
@@ -36,7 +36,7 @@ export default {
       for (let i = 0; i < this.height; i++) {
         contentTable += '<tr>';
         for (let j = 0; j < this.width; j++) {
-          contentTable += '<td>*</td>';
+          contentTable += '<td></td>';
         }
         contentTable += '</tr>';
       }
@@ -48,10 +48,34 @@ export default {
 
 <style lang="css">
 .grid {
-  border: 1px solid black;
+  /* border: 1px solid white; */
   width: 50%;
-  height: 750px;
+  height: 90%;
   display: inline-block;
-  float: left;
+  padding: 1px;
+  position: relative;
+}
+
+.grid .board {
+  margin: auto;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 90%;
+  height: 90%;
+}
+
+
+.grid .board table {
+  width: 100%;
+  height: 100%;
+  border-collapse: collapse;
+}
+
+.grid .board table td {
+  border: 3px solid #2E6490;
+  color: white;
 }
 </style>
