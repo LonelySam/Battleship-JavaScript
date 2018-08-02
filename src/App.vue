@@ -23,8 +23,9 @@ html, body {
   /* font-family: 'Quattrocento Sans', sans-serif; */
   /* font-family: 'Noto Sans', sans-serif; */
   font-family: 'Exo', sans-serif;
-  height: 750px;
-  max-height: 750px;
+  /* height: 750px; */
+  /* max-height: 750px; */
+  height: 100%;
   width: 100%;
 }
 </style>

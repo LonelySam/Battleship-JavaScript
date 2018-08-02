@@ -3,12 +3,12 @@
     <div class="form">
       <p>Start creating the game, sizing the board on which you want to fight!</p>
       <div class="width-input">
-        <label>Width:</label>
-        <input type="number" name="game" v-model="width">
+        <label>Width</label>
+        <input type="number" min="0" max="100" name="game" v-model.number="width" v-on:keyup="validateMaxValue()">
       </div>
       <div class="height-input">
         <label>Height</label>
-        <input type="number" name="game" v-model="height">
+        <input type="number" min="0" max="100" name="game" v-model.number="height" v-on:keyup="validateMaxValue()">
       </div>
       <button type="button" name="game" @click="sendValue(width, height)">Create</button>
     </div>
@@ -27,8 +27,21 @@ export default {
     };
   },
   methods: {
+    validateMaxValue() {
+      if (this.width > 100) {
+        this.width = 100;
+      }
+      if (this.height > 100) {
+        this.height = 100;
+      }
+    },
+    generateToken() {
+      return Math.floor(Math.random() * new Date());
+    },
     sendValue(width, height) {
+      let token = this.generateToken();
       EventBus.$emit('create-form', width, height);
+      EventBus.$emit('generate-token', token);
     },
   },
 };
@@ -54,6 +67,7 @@ export default {
   height: 85%;
   background-color: rgba(204, 204, 204, 0.3);
   padding: 5% 5%;
+  border-radius: 10px;
 }
 
 .body-form .form p {

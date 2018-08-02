@@ -6,6 +6,7 @@
     <div class="body">
       <FormCreate/>
       <BattleGrid/>
+      <TokenGame/>
     </div>
   </div>
 </template>
@@ -13,6 +14,7 @@
 <script>
 import BattleGrid from '@/components/BattleGrid.vue';
 import FormCreate from '@/components/FormCreate.vue';
+import TokenGame from '@/components/TokenGame.vue';
 import HeaderGame from '@/components/HeaderGame.vue';
 
 export default {
@@ -21,6 +23,7 @@ export default {
     HeaderGame,
     BattleGrid,
     FormCreate,
+    TokenGame,
   },
 };
 </script>
@@ -35,6 +38,7 @@ export default {
 
 .game .header {
   height: 10%;
+  border-bottom: 2px solid #115790;
 }
 
 .game .body {

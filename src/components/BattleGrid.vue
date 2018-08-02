@@ -50,10 +50,11 @@ export default {
 .grid {
   /* border: 1px solid white; */
   width: 50%;
-  height: 90%;
+  height: 100%;
   display: inline-block;
   padding: 1px;
   position: relative;
+  float: right;
 }
 
 .grid .board {
@@ -65,6 +66,7 @@ export default {
   left: 0;
   width: 90%;
   height: 90%;
+  background-color: rgba(204, 204, 204, 0.3);
 }
 
 
@@ -75,7 +77,7 @@ export default {
 }
 
 .grid .board table td {
-  border: 3px solid #2E6490;
+  border: 3px solid #0B2133;
   color: white;
 }
 </style>
