@@ -1,12 +1,12 @@
 <template lang="html">
   <div class="body-token">
     <div class="form">
-      <p>With this token invite your friend. And start figthing!</p>
+      <p>Your friend challanged you to a battle? Join now and defeat them!</p>
       <div class="token-input">
-        <label>Token</label>
+        <label>Challange</label>
         <input type="text" name="token" v-bind:value=token readonly>
       </div>
-      <button type="button" name="token">Invite</button>
+      <button type="button" name="token">Join</button>
     </div>
   </div>
 </template>
@@ -22,12 +22,9 @@ export default {
     };
   },
   mounted() {
-    EventBus.$on('generate-token', (token) => {
-      console.log(token);
-      if(token !== undefined) {
-        this.token = token;
-      }
-    })
+    EventBus.$on('receive-token', (link) => {
+      this.token = link;
+    });
   },
 }
 </script>
@@ -35,7 +32,7 @@ export default {
 <style>
 .body-token {
   position: relative;
-  width: 50%;
+  width: 30%;
   height: 50%;
   display: inline-block;
   float: left;
@@ -57,7 +54,6 @@ export default {
 
 .body-token .form p {
   color: white;
-  /* color: black; */
   padding-bottom: 5%;
 }
 
@@ -67,7 +63,6 @@ export default {
 
 .body-token .form label {
   color: white;
-  /* color: black; */
   font-size: 12px;
   padding-bottom: 1%;
   padding-left: 10px;
@@ -75,7 +70,7 @@ export default {
 
 .body-token .form input {
   display: block;
-  width: 70%;
+  width: 90%;
   border: none;
   padding: 7px 7px 7px 2px;
   margin-left: 10px;

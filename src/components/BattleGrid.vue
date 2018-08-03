@@ -2,6 +2,9 @@
   <div class="grid">
     <div class="board">
       <table id="grid-table">
+        <tr v-for="i in (1, height)">
+          <td v-for="j in (1, width)"></td>
+        </tr>
       </table>
     </div>
   </div>
@@ -14,42 +17,28 @@ export default {
   name: 'BattleGrid',
   data() {
     return {
-      width: 0,
-      height: 0,
+      width: 10,
+      height: 10,
     };
   },
   mounted() {
     EventBus.$on('create-form', (width, height) => {
+      console.log(width);
+      console.log(height);
       if (width !== undefined) {
         this.width = width;
       }
       if (height !== undefined) {
         this.height = height;
       }
-      this.generateTable();
     });
-  },
-  methods: {
-    generateTable() {
-      const table = document.getElementById('grid-table');
-      let contentTable = '';
-      for (let i = 0; i < this.height; i++) {
-        contentTable += '<tr>';
-        for (let j = 0; j < this.width; j++) {
-          contentTable += '<td></td>';
-        }
-        contentTable += '</tr>';
-      }
-      table.innerHTML = contentTable;
-    },
   },
 };
 </script>
 
 <style lang="css">
 .grid {
-  /* border: 1px solid white; */
-  width: 50%;
+  width: 70%;
   height: 100%;
   display: inline-block;
   padding: 1px;

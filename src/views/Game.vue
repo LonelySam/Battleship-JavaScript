@@ -31,9 +31,10 @@ export default {
 <style>
 .game {
   width: 90%;
+  height: 100%;
   margin: auto;
-  height: 750px;
-  max-height: 750px;
+  /*height: 750px;*/
+  /*max-height: 750px;*/
 }
 
 .game .header {

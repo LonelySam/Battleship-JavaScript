@@ -2,46 +2,56 @@
   <div class="body-form">
     <div class="form">
       <p>Start creating the game, sizing the board on which you want to fight!</p>
-      <div class="width-input">
-        <label>Width</label>
-        <input type="number" min="0" max="100" name="game" v-model.number="width" v-on:keyup="validateMaxValue()">
+      <div class="colum-input">
+        <label>colum</label>
+        <input type="number" min="10" max="50" name="game" v-model.number="colum" @keyup="validateValue()" @change="validateValue()">
       </div>
-      <div class="height-input">
-        <label>Height</label>
-        <input type="number" min="0" max="100" name="game" v-model.number="height" v-on:keyup="validateMaxValue()">
+      <div class="row-input">
+        <label>row</label>
+        <input type="number" min="10" max="50" name="game" v-model.number="row" @keyup="validateValue()" @change="validateValue()">
       </div>
-      <button type="button" name="game" @click="sendValue(width, height)">Create</button>
+      <button type="button" name="game" @click="sendValue({colum, row})">Create</button>
     </div>
   </div>
 </template>
 
 <script>
 import { EventBus } from '@/services/event-bus';
+import CreationGame from '@/services/CreationGame.js';
 
 export default {
   name: 'FormCreate',
   data() {
     return {
-      height: 0,
-      width: 0,
+      row: 10,
+      colum: 10,
     };
   },
   methods: {
-    validateMaxValue() {
-      if (this.width > 100) {
-        this.width = 100;
+    validateValue() {
+      if (this.row > 50) {
+        this.row = 50;
       }
-      if (this.height > 100) {
-        this.height = 100;
+      if (this.row < 10) {
+        this.row = 10;
       }
+      if (this.colum > 50) {
+        this.colum = 50;
+      }
+      if (this.colum < 10) {
+        this.colum = 10;
+      }
+      EventBus.$emit('create-form', this.colum, this.row);
     },
-    generateToken() {
-      return Math.floor(Math.random() * new Date());
-    },
-    sendValue(width, height) {
-      let token = this.generateToken();
-      EventBus.$emit('create-form', width, height);
-      EventBus.$emit('generate-token', token);
+    sendValue({colum, row} = {}) {
+      CreationGame.createGame({colum, row})
+        .then((response) => {
+          console.log(response.data.id);
+          
+        })
+        .catch((error) => {
+          console.log(error);
+        })
     },
   },
 };
@@ -50,7 +60,7 @@ export default {
 <style lang="css">
 .body-form {
   position: relative;
-  width: 50%;
+  width: 30%;
   height: 50%;
   display: inline-block;
   float: left;
@@ -72,15 +82,14 @@ export default {
 
 .body-form .form p {
   color: white;
-  /* color: black; */
   padding-bottom: 5%;
 }
 
-.body-form .form .width-input {
+.body-form .form .colum-input {
   margin-bottom: 2%;
 }
 
-.body-form .form .height-input {
+.body-form .form .row-input {
   margin-bottom: 2%;
 }
 
@@ -94,7 +103,7 @@ export default {
 
 .body-form .form input {
   display: block;
-  width: 70%;
+  width: 90%;
   border: none;
   padding: 7px 7px 7px 2px;
   margin-left: 10px;
