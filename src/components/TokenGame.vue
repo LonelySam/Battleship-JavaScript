@@ -1,32 +1,47 @@
 <template lang="html">
   <div class="body-token">
     <div class="form">
-      <p>Your friend challanged you to a battle? Join now and defeat them!</p>
+      <p>{{message}}</p>
       <div class="token-input">
         <label>Challange</label>
-        <input type="text" name="token" v-bind:value=token readonly>
+        <input type="text" name="token" v-bind:value=token>
       </div>
-      <button type="button" name="token">Join</button>
+      <button type="button" name="token" @click="joinGame(token)">Join</button>
     </div>
   </div>
 </template>
 
 <script>
 import { EventBus } from '@/services/event-bus';
+import JoinGame from '@/services/JoinGame';
 
 export default {
   name: 'TokenGame',
   data() {
     return {
-      token: ''
+      message: '',
+      token: '',
     };
   },
   mounted() {
-    EventBus.$on('receive-token', (link) => {
-      this.token = link;
+    this.message = 'Your friend challanged you to a battle? Join now and defeat them!';
+    EventBus.$on('receive-token', (data) => {
+      this.message = 'Share this link with your opponent.';
+      this.token = data.session;
     });
   },
-}
+  methods: {
+    joinGame(link) {
+      JoinGame.joinLink(link)
+        .then((response) => {
+          console.log(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+  },
+};
 </script>
 
 <style>

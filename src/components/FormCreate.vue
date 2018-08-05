@@ -17,7 +17,7 @@
 
 <script>
 import { EventBus } from '@/services/event-bus';
-import CreationGame from '@/services/CreationGame.js';
+import CreationGame from '@/services/CreationGame';
 
 export default {
   name: 'FormCreate',
@@ -44,14 +44,15 @@ export default {
       EventBus.$emit('create-form', this.colum, this.row);
     },
     sendValue({colum, row} = {}) {
-      CreationGame.createGame({colum, row})
+      CreationGame.create({colum, row})
         .then((response) => {
-          console.log(response.data.id);
-          
+          console.log(response.data);
+          const data = response.data;
+          EventBus.$emit('receive-token', data);
         })
         .catch((error) => {
           console.log(error);
-        })
+        });
     },
   },
 };
