@@ -1,7 +1,12 @@
 <template>
   <div class="grid">
-    <table id="grid-table">
-    </table>
+    <div class="board">
+      <table id="grid-table">
+        <tr v-for="i in (1, height)">
+          <td v-for="j in (1, width)"></td>
+        </tr>
+      </table>
+    </div>
   </div>
 </template>
 
@@ -12,46 +17,56 @@ export default {
   name: 'BattleGrid',
   data() {
     return {
-      width: 0,
-      height: 0,
+      width: 10,
+      height: 10,
     };
   },
   mounted() {
     EventBus.$on('create-form', (width, height) => {
+      console.log(width);
+      console.log(height);
       if (width !== undefined) {
         this.width = width;
       }
       if (height !== undefined) {
         this.height = height;
       }
-      console.log(this.width);
-      console.log(this.height);
-      this.generateTable();
     });
-  },
-  methods: {
-    generateTable() {
-      const table = document.getElementById('grid-table');
-      let contentTable = '';
-      for (let i = 0; i < this.height; i++) {
-        contentTable += '<tr>';
-        for (let j = 0; j < this.width; j++) {
-          contentTable += '<td>*</td>';
-        }
-        contentTable += '</tr>';
-      }
-      table.innerHTML = contentTable;
-    },
   },
 };
 </script>
 
 <style lang="css">
 .grid {
-  border: 1px solid black;
-  width: 50%;
-  height: 750px;
+  width: 70%;
+  height: 100%;
   display: inline-block;
-  float: left;
+  padding: 1px;
+  position: relative;
+  float: right;
+}
+
+.grid .board {
+  margin: auto;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 90%;
+  height: 90%;
+  background-color: rgba(204, 204, 204, 0.3);
+}
+
+
+.grid .board table {
+  width: 100%;
+  height: 100%;
+  border-collapse: collapse;
+}
+
+.grid .board table td {
+  border: 3px solid #0B2133;
+  color: white;
 }
 </style>
