@@ -1,7 +1,7 @@
 <template lang="html">
   <div class="drag-and-drop">
     <div class="content-left">
-      <div class="board">
+      <div class="board" id="board">
         <table id="grid-table">
           <tr v-for="i in (1, rows)">
             <td v-for="j in (1, cols)" v-bind:id="i+'-'+j"></td>
@@ -12,12 +12,16 @@
     <div class="content-right">
       <div class="list">
         <div v-for="i in (1, maxShips)" class="ship">
-          <div class="image">
+          <div class="image" id="ships">
             <img :src="require(`@/assets/`+i+`.png`)" alt="">
           </div>
           <div class="counter">
             <p>{{i}}</p>
           </div>
+        </div>
+        <div class="buttons">
+          <button type="button" name="rotate">Rotate</button>
+          <button type="button" name="setup">Save</button>
         </div>
       </div>
     </div>
@@ -34,7 +38,20 @@ export default {
       maxShips: 5,
     };
   },
-}
+  mounted() {
+    this.$nextTick(() => {
+      this.drake = dragula ([
+          document.getElementById('board'),
+          document.getElementById('ships'),
+        ],
+        {
+          copy: true,
+          revertOnSpill: true,
+        }
+      );
+    });
+  },
+};
 </script>
 
 <style lang="css">
@@ -104,6 +121,7 @@ export default {
 
 .drag-and-drop .content-right .list .ship {
   width: 100%;
+  height: 15%;
 }
 
 .drag-and-drop .content-right .list .ship .image {
@@ -122,5 +140,17 @@ export default {
   float: right;
   display: inline-block;
   text-align: center;
+}
+
+.drag-and-drop .content-right .list .buttons button {
+  margin-top: 5%;
+  display: inline-block;
+  padding: 5px 5px 5px 5px;
+  border: none;
+  border-radius: 5px;
+  margin-left: 10px;
+  background-color: #0F2C44;
+  color: white;
+  width: 30%;
 }
 </style>

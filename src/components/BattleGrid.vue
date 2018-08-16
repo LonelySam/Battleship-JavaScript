@@ -3,7 +3,9 @@
     <div class="board">
       <table id="grid-table">
         <tr v-for="i in (1, rows)">
-          <td v-for="j in (1, cols)"></td>
+          <td v-for="j in (1, cols)">
+            <div></div>
+          </td>
         </tr>
       </table>
     </div>
