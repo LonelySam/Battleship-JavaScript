@@ -1,18 +1,19 @@
 <template lang="html">
   <div class="drag-and-drop">
     <div class="content-left">
-      <div class="board" id="board">
+      <div class="board">
         <table id="grid-table">
-          <tr v-for="i in (1, rows)">
-            <td v-for="j in (1, cols)" v-bind:id="i+'-'+j"></td>
+          <tr v-for="(row, rowIndex) in rows" v-bind:key="row">
+            <td v-for="(col, colIndex) in cols" :id="(rowIndex + 1)+'-'+(colIndex + 1)" v-bind:key="col">
+            </td>
           </tr>
         </table>
       </div>
     </div>
     <div class="content-right">
-      <div class="list">
-        <div v-for="i in (1, maxShips)" class="ship">
-          <div class="image" id="ships">
+      <div class="list" id="ships">
+        <div v-for="i in (1, maxShips)" class="ship" >
+          <div class="image">
             <img :src="require(`@/assets/`+i+`.png`)" alt="">
           </div>
           <div class="counter">
@@ -29,6 +30,8 @@
 </template>
 
 <script>
+import * as dragula from 'dragula';
+
 export default {
   name: 'GridShipsDnD',
   data() {
@@ -39,17 +42,30 @@ export default {
     };
   },
   mounted() {
-    this.$nextTick(() => {
-      this.drake = dragula ([
-          document.getElementById('board'),
-          document.getElementById('ships'),
-        ],
-        {
-          copy: true,
-          revertOnSpill: true,
-        }
-      );
-    });
+    for (let i = 1; i <= this.rows; i++) {
+      for (let j = 1; j <= this.cols; j++) {
+        dragula (
+          [
+            document.getElementById('ships'),
+            document.getElementById(i+'-'+j),
+          ],
+          {
+            copy: true,
+            // revertOnSpill: true,
+          }
+        );
+      }
+    }
+    // dragula (
+    //   [
+    //     document.getElementById('board'),
+    //     document.getElementById('ships'),
+    //   ],
+    //   {
+    //     copy: true,
+    //     revertOnSpill: true,
+    //   }
+    // );
   },
 };
 </script>
