@@ -7,6 +7,8 @@
         <input type="text" name="token" v-bind:value=token>
       </div>
       <button type="button" name="token" @click="joinGame(token)">Join</button>
+      <!-- <button type="button" name="setup" @click="setUpShips(link)" v-if="seen">Set up your ships!</button> -->
+      <button type="button" name="setup" @click="setUpShips(link)">Set up your ships!</button>
     </div>
   </div>
 </template>
@@ -14,6 +16,7 @@
 <script>
 import { EventBus } from '@/services/event-bus';
 import JoinGame from '@/services/JoinGame';
+import SetUpShip from '@/services/SetUpShip';
 
 export default {
   name: 'TokenGame',
@@ -21,6 +24,8 @@ export default {
     return {
       message: '',
       token: '',
+      seen: false,
+      linkSetUp: '',
     };
   },
   mounted() {
@@ -28,6 +33,7 @@ export default {
     EventBus.$on('receive-token', (data) => {
       this.message = 'Share this link with your opponent.';
       this.token = data.session;
+      this.seen = true;
     });
   },
   methods: {
@@ -35,11 +41,24 @@ export default {
       JoinGame.joinLink(link)
         .then((response) => {
           console.log(response.data);
+          //Here we'll be the change of value to linkSetUp once fixed the backend
         })
         .catch((error) => {
-          console.log(error);
+          console.error(error);
         });
     },
+    setUpShips(linkSetUp) {
+      this.$router.push('/setup');
+      // // This will not be commented after fixing the BackEnd
+      // SetUpShip.setUp(linkSetUp)
+      //   .then(response => {
+      //     console.log(response.data);
+      //     this.$router.push('/setup');
+      //   })
+      //   .catch((error) => {
+      //     console.error(error);
+      //   });
+    }
   },
 };
 </script>

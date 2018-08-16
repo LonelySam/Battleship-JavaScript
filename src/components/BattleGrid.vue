@@ -2,8 +2,8 @@
   <div class="grid">
     <div class="board">
       <table id="grid-table">
-        <tr v-for="i in (1, height)">
-          <td v-for="j in (1, width)"></td>
+        <tr v-for="i in (1, rows)">
+          <td v-for="j in (1, cols)"></td>
         </tr>
       </table>
     </div>
@@ -17,19 +17,17 @@ export default {
   name: 'BattleGrid',
   data() {
     return {
-      width: 10,
-      height: 10,
+      cols: 10,
+      rows: 10,
     };
   },
   mounted() {
-    EventBus.$on('create-form', (width, height) => {
-      console.log(width);
-      console.log(height);
-      if (width !== undefined) {
-        this.width = width;
+    EventBus.$on('create-form', (cols, rows) => {
+      if (cols !== undefined) {
+        this.cols = cols;
       }
-      if (height !== undefined) {
-        this.height = height;
+      if (rows !== undefined) {
+        this.rows = rows;
       }
     });
   },

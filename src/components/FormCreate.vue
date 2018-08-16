@@ -3,11 +3,11 @@
     <div class="form">
       <p>Start creating the game, sizing the board on which you want to fight!</p>
       <div class="colum-input">
-        <label>colum</label>
+        <label>Colums</label>
         <input type="number" min="10" max="50" name="game" v-model.number="colum" @keyup="validateValue()" @change="validateValue()">
       </div>
       <div class="row-input">
-        <label>row</label>
+        <label>Rows</label>
         <input type="number" min="10" max="50" name="game" v-model.number="row" @keyup="validateValue()" @change="validateValue()">
       </div>
       <button type="button" name="game" @click="sendValue({colum, row})">Create</button>
@@ -46,12 +46,11 @@ export default {
     sendValue({colum, row} = {}) {
       CreationGame.create({colum, row})
         .then((response) => {
-          console.log(response.data);
           const data = response.data;
           EventBus.$emit('receive-token', data);
         })
         .catch((error) => {
-          console.log(error);
+          console.error(error);
         });
     },
   },
