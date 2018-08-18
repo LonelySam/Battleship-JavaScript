@@ -6,9 +6,8 @@
         <label>Challange</label>
         <input type="text" name="token" v-bind:value=token>
       </div>
-      <button type="button" name="token" @click="joinGame(token)">Join</button>
-      <!-- <button type="button" name="setup" @click="setUpShips(link)" v-if="seen">Set up your ships!</button> -->
-      <button type="button" name="setup" @click="setUpShips(link)">Set up your ships!</button>
+      <button @click="joinGame(token)" v-if="seenJoin">Join</button>
+      <button @click="setupShips()" v-if="seenSetup">Setup ships!</button>
     </div>
   </div>
 </template>
@@ -16,7 +15,6 @@
 <script>
 import { EventBus } from '@/services/event-bus';
 import JoinGame from '@/services/JoinGame';
-import SetUpShip from '@/services/SetUpShip';
 
 export default {
   name: 'TokenGame',
@@ -24,16 +22,22 @@ export default {
     return {
       message: '',
       token: '',
-      seen: false,
-      linkSetUp: '',
+      seenSetup: false,
+      seenJoin: true,
+      creatorId: '',
+      createdGameId: '',
     };
   },
   mounted() {
-    this.message = 'Your friend challanged you to a battle? Join now and defeat them!';
+    this.message =
+      'Your friend challanged you to a battle? Join now and defeat them!';
     EventBus.$on('receive-token', (data) => {
       this.message = 'Share this link with your opponent.';
+      this.seenSetup = true;
+      this.seenJoin = false;
       this.token = data.session;
-      this.seen = true;
+      this.creatorId = data.playerId;
+      this.createdGameId = data.gameId;
     });
   },
   methods: {
@@ -41,24 +45,24 @@ export default {
       JoinGame.joinLink(link)
         .then((response) => {
           console.log(response.data);
-          //Here we'll be the change of value to linkSetUp once fixed the backend
+          this.$router.push({
+            name: 'setupShip',
+            params: {
+              gameId: response.data.gameId,
+              playerId: response.data.playerId,
+            },
+          });
         })
         .catch((error) => {
           console.error(error);
         });
     },
-    setUpShips(linkSetUp) {
-      this.$router.push('/setup');
-      // // This will not be commented after fixing the BackEnd
-      // SetUpShip.setUp(linkSetUp)
-      //   .then(response => {
-      //     console.log(response.data);
-      //     this.$router.push('/setup');
-      //   })
-      //   .catch((error) => {
-      //     console.error(error);
-      //   });
-    }
+    setupShips() {
+      this.$router.push({
+        name: 'setupShip',
+        params: { gameId: this.createdGameId, playerId: this.creatorId },
+      });
+    },
   },
 };
 </script>
@@ -68,7 +72,6 @@ export default {
   position: relative;
   width: 30%;
   height: 50%;
-  display: inline-block;
   float: left;
 }
 
@@ -117,7 +120,7 @@ export default {
   border: none;
   border-radius: 5px;
   margin-left: 10px;
-  background-color: #0F2C44;
+  background-color: #0f2c44;
   color: white;
   width: 30%;
 }

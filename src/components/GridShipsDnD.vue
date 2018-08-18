@@ -3,26 +3,29 @@
     <div class="content-left">
       <div class="board">
         <table id="grid-table">
-          <tr v-for="(row, rowIndex) in rows" v-bind:key="row">
-            <td v-for="(col, colIndex) in cols" :id="(rowIndex + 1)+'-'+(colIndex + 1)" v-bind:key="col">
-            </td>
-          </tr>
+          <tbody>
+            <tr v-for="(row, rowIndex) in rows" v-bind:key="row">
+              <td v-for="(col, colIndex) in cols" :id="(rowIndex + 1)+'-'+(colIndex + 1)" v-bind:key="col">
+                <!-- Necessary because it doesn't not recgonize the cell-->
+                <p>xxxxx</p>
+                <p>xxxxx</p>
+                <p>xxxxx</p>
+              </td>
+            </tr>
+          </tbody>
         </table>
       </div>
     </div>
     <div class="content-right">
       <div class="list" id="ships">
-        <div v-for="i in (1, maxShips)" class="ship" >
+        <div v-for="(typeShip) in maxShips" v-bind:key="typeShip" class="ship" >
           <div class="image">
-            <img :src="require(`@/assets/`+i+`.png`)" alt="">
-          </div>
-          <div class="counter">
-            <p>{{i}}</p>
+            <img :src="require(`@/assets/`+typeShip+`.png`)" alt="">
           </div>
         </div>
         <div class="buttons">
-          <button type="button" name="rotate">Rotate</button>
-          <button type="button" name="setup">Save</button>
+          <button type="button" name="rotate" @click="rotate()">Rotate</button>
+          <button type="button" name="setup" @click="save()">Save</button>
         </div>
       </div>
     </div>
@@ -42,17 +45,16 @@ export default {
     };
   },
   mounted() {
-    for (let i = 1; i <= this.rows; i++) {
-      for (let j = 1; j <= this.cols; j++) {
-        dragula (
+    for (let i = 1; i <= this.rows; i += 1) {
+      for (let j = 1; j <= this.cols; j += 1) {
+        dragula(
           [
             document.getElementById('ships'),
-            document.getElementById(i+'-'+j),
+            document.getElementById(`${i}-${j}`),
           ],
           {
             copy: true,
-            // revertOnSpill: true,
-          }
+          },
         );
       }
     }
@@ -67,6 +69,14 @@ export default {
     //   }
     // );
   },
+  methods: {
+    rotate() {
+
+    },
+    save() {
+
+    },
+  },
 };
 </script>
 
@@ -79,7 +89,6 @@ export default {
 .drag-and-drop .content-left {
   width: 70%;
   height: 100%;
-  display: inline-block;
   float: left;
   position: relative;
 }
@@ -115,7 +124,6 @@ export default {
 .drag-and-drop .content-right {
   width: 30%;
   height: 100%;
-  display: inline-block;
   float: right;
   position: relative;
 }
@@ -144,7 +152,6 @@ export default {
   float: left;
   width: 80%;
   height: 20%;
-  display: inline-block;
 }
 
 .drag-and-drop .content-right .list .ship .image img {
@@ -154,7 +161,6 @@ export default {
 .drag-and-drop .content-right .list .ship .counter {
   width: 20%;
   float: right;
-  display: inline-block;
   text-align: center;
 }
 

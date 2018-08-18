@@ -14,7 +14,7 @@ import HeaderGame from '@/components/HeaderGame.vue';
 import GridShipsDnD from '@/components/GridShipsDnD.vue';
 
 export default {
-  name: 'setup',
+  name: 'setupShip',
   components: {
     HeaderGame,
     GridShipsDnD,

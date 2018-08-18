@@ -1,7 +1,11 @@
 import axios from 'axios';
+const BASE_URL = 'http://localhost:3000/game/';
+const MIDDLE_URL = '/player/';
+const END_URL = '/board';
 
 export default {
-  setUp(link) {
-    return axios.get(`${link}`);
+  setup({ gameId, playerId, shipArray }) {
+    const link = BASE_URL
+    return axios.put(`${link}`);
   },
 };

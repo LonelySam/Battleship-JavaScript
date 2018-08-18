@@ -2,9 +2,8 @@
   <div class="grid">
     <div class="board">
       <table id="grid-table">
-        <tr v-for="i in (1, rows)">
-          <td v-for="j in (1, cols)">
-            <div></div>
+        <tr v-for="(row) in rows" v-bind:key="row">
+          <td v-for="(col) in cols" v-bind:key="col">
           </td>
         </tr>
       </table>
@@ -40,7 +39,6 @@ export default {
 .grid {
   width: 70%;
   height: 100%;
-  display: inline-block;
   padding: 1px;
   position: relative;
   float: right;
@@ -58,7 +56,6 @@ export default {
   background-color: rgba(204, 204, 204, 0.3);
 }
 
-
 .grid .board table {
   width: 100%;
   height: 100%;
@@ -66,7 +63,7 @@ export default {
 }
 
 .grid .board table td {
-  border: 3px solid #0B2133;
+  border: 3px solid #0b2133;
   color: white;
 }
 </style>
