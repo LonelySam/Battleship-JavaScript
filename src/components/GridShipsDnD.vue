@@ -6,10 +6,6 @@
           <tbody>
             <tr v-for="(row, rowIndex) in rows" v-bind:key="row">
               <td v-for="(col, colIndex) in cols" :id="(rowIndex + 1)+'-'+(colIndex + 1)" v-bind:key="col">
-                <!-- Necessary because it doesn't not recgonize the cell-->
-                <p>xxxxx</p>
-                <p>xxxxx</p>
-                <p>xxxxx</p>
               </td>
             </tr>
           </tbody>
@@ -45,29 +41,14 @@ export default {
     };
   },
   mounted() {
+    const containers = [];
+    containers.push(document.getElementById('ships'));
     for (let i = 1; i <= this.rows; i += 1) {
       for (let j = 1; j <= this.cols; j += 1) {
-        dragula(
-          [
-            document.getElementById('ships'),
-            document.getElementById(`${i}-${j}`),
-          ],
-          {
-            copy: true,
-          },
-        );
+        containers.push(document.getElementById(`${i}-${j}`));
       }
     }
-    // dragula (
-    //   [
-    //     document.getElementById('board'),
-    //     document.getElementById('ships'),
-    //   ],
-    //   {
-    //     copy: true,
-    //     revertOnSpill: true,
-    //   }
-    // );
+    dragula(containers);
   },
   methods: {
     rotate() {
