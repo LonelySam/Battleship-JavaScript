@@ -14,7 +14,7 @@
     </div>
     <div class="content-right">
       <div class="list" id="ships">
-        <div v-for="(typeShip) in maxShips" v-bind:key="typeShip" class="ship" >
+        <div v-for="(typeShip) in maxShips" v-bind:key="typeShip" class="ship" :id=typeShip>
           <div class="image">
             <img :src="require(`@/assets/`+typeShip+`.png`)" alt="">
           </div>
@@ -38,6 +38,7 @@ export default {
       cols: 10,
       rows: 10,
       maxShips: 5,
+      shipsArray: [],
     };
   },
   mounted() {
@@ -48,7 +49,14 @@ export default {
         containers.push(document.getElementById(`${i}-${j}`));
       }
     }
-    dragula(containers);
+    dragula(containers, {
+      accepts: function (el, target) {
+        console.log(el.getAttribute("id")); //id ship
+        console.log(target.getAttribute("id")); //id td
+        return true;
+      },
+      copy: false,
+    });
   },
   methods: {
     rotate() {
