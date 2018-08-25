@@ -2,13 +2,11 @@
   <div class="body-form">
     <div class="form">
       <p>Start creating the game, sizing the board on which you want to fight!</p>
-      <div class="colum-input">
+      <div class="input">
         <label>Colums</label>
-        <input type="number" min="10" max="50" name="game" v-model.number="colum" @keyup="validateValue()" @change="validateValue()">
-      </div>
-      <div class="row-input">
+        <input type="number" min="10" max="50" v-model.number="col" @keyup="validateValue()" @change="validateValue()">
         <label>Rows</label>
-        <input type="number" min="10" max="50" name="game" v-model.number="row" @keyup="validateValue()" @change="validateValue()">
+        <input type="number" min="10" max="50" v-model.number="row" @keyup="validateValue()" @change="validateValue()">
       </div>
       <button type="button" name="game" @click="sendValue({colum, row})">Create</button>
     </div>
@@ -21,35 +19,35 @@ import CreationGame from '@/services/CreationGame';
 
 export default {
   name: 'FormCreate',
-  data() {
+  data () {
     return {
       row: 10,
-      colum: 10,
+      col: 10,
     };
   },
   methods: {
-    validateValue() {
+    validateValue () {
       if (this.row > 50) {
         this.row = 50;
       }
       if (this.row < 10) {
         this.row = 10;
       }
-      if (this.colum > 50) {
-        this.colum = 50;
+      if (this.col > 50) {
+        this.col = 50;
       }
-      if (this.colum < 10) {
-        this.colum = 10;
+      if (this.col < 10) {
+        this.col = 10;
       }
-      EventBus.$emit('create-form', this.colum, this.row);
+      EventBus.$emit('create-form', this.col, this.row);
     },
-    sendValue({colum, row} = {}) {
-      CreationGame.create({colum, row})
-        .then((response) => {
+    sendValue ({ col, row } = {}) {
+      CreationGame.create({ col, row })
+        .then(response => {
           const data = response.data;
           EventBus.$emit('receive-token', data);
         })
-        .catch((error) => {
+        .catch(error => {
           console.error(error);
         });
     },
@@ -61,8 +59,7 @@ export default {
 .body-form {
   position: relative;
   width: 30%;
-  height: 50%;
-  display: inline-block;
+  height: 45%;
   float: left;
 }
 
@@ -73,8 +70,8 @@ export default {
   bottom: 0;
   left: 0;
   margin: auto;
-  width: 85%;
-  height: 85%;
+  width: 100%;
+  height: 80%;
   background-color: rgba(204, 204, 204, 0.3);
   padding: 5% 5%;
   border-radius: 10px;
@@ -85,12 +82,12 @@ export default {
   padding-bottom: 5%;
 }
 
-.body-form .form .colum-input {
+.body-form .form .input {
   margin-bottom: 2%;
 }
 
-.body-form .form .row-input {
-  margin-bottom: 2%;
+.body-form .form .input input {
+  margin-bottom: 5%;
 }
 
 .body-form .form label {

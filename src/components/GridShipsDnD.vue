@@ -15,9 +15,7 @@
     <div class="content-right">
       <div class="list" id="ships">
         <div v-for="(typeShip) in maxShips" v-bind:key="typeShip" class="ship" :id=typeShip>
-          <div class="image">
-            <img :src="require(`@/assets/`+typeShip+`.png`)" alt="">
-          </div>
+          <img :src="require(`@/assets/`+typeShip+`.png`)">
         </div>
         <div class="buttons">
           <button type="button" name="rotate" @click="rotate()">Rotate</button>
@@ -33,7 +31,7 @@ import * as dragula from 'dragula';
 
 export default {
   name: 'GridShipsDnD',
-  data() {
+  data () {
     return {
       cols: 10,
       rows: 10,
@@ -41,7 +39,7 @@ export default {
       shipsArray: [],
     };
   },
-  mounted() {
+  mounted () {
     const containers = [];
     containers.push(document.getElementById('ships'));
     for (let i = 1; i <= this.rows; i += 1) {
@@ -51,18 +49,18 @@ export default {
     }
     dragula(containers, {
       accepts: function (el, target) {
-        console.log(el.getAttribute("id")); //id ship
-        console.log(target.getAttribute("id")); //id td
+        console.log(el.getAttribute('id')); //id ship
+        console.log(target.getAttribute('id')); //id td
         return true;
       },
       copy: false,
     });
   },
   methods: {
-    rotate() {
+    rotate () {
 
     },
-    save() {
+    save () {
 
     },
   },
@@ -72,7 +70,7 @@ export default {
 <style lang="css">
 .drag-and-drop {
   width: 100%;
-  height: 100%;
+  height: 90%;
 }
 
 .drag-and-drop .content-left {
@@ -97,6 +95,7 @@ export default {
 .drag-and-drop .content-left .board table {
   width: 100%;
   height: 100%;
+  table-layout: auto;
   border-collapse: collapse;
   text-align: center;
 }
@@ -104,6 +103,8 @@ export default {
 .drag-and-drop .content-left .board table td {
   border: 3px solid #0B2133;
   color: white;
+  width: 0.5%;
+  height: 0.5%;
 }
 
 .drag-and-drop .content-left .board table td:hover {
@@ -135,22 +136,6 @@ export default {
 .drag-and-drop .content-right .list .ship {
   width: 100%;
   height: 15%;
-}
-
-.drag-and-drop .content-right .list .ship .image {
-  float: left;
-  width: 80%;
-  height: 20%;
-}
-
-.drag-and-drop .content-right .list .ship .image img {
-  max-width: 100%;
-}
-
-.drag-and-drop .content-right .list .ship .counter {
-  width: 20%;
-  float: right;
-  text-align: center;
 }
 
 .drag-and-drop .content-right .list .buttons button {

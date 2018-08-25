@@ -18,7 +18,7 @@ import JoinGame from '@/services/JoinGame';
 
 export default {
   name: 'TokenGame',
-  data() {
+  data () {
     return {
       message: '',
       token: '',
@@ -28,10 +28,10 @@ export default {
       createdGameId: '',
     };
   },
-  mounted() {
+  mounted () {
     this.message =
       'Your friend challanged you to a battle? Join now and defeat them!';
-    EventBus.$on('receive-token', (data) => {
+    EventBus.$on('receive-token', data => {
       this.message = 'Share this link with your opponent.';
       this.seenSetup = true;
       this.seenJoin = false;
@@ -41,9 +41,9 @@ export default {
     });
   },
   methods: {
-    joinGame(link) {
+    joinGame (link) {
       JoinGame.joinLink(link)
-        .then((response) => {
+        .then(response => {
           console.log(response.data);
           this.$router.push({
             name: 'setupShip',
@@ -53,11 +53,11 @@ export default {
             },
           });
         })
-        .catch((error) => {
+        .catch(error => {
           console.error(error);
         });
     },
-    setupShips() {
+    setupShips () {
       this.$router.push({
         name: 'setupShip',
         params: { gameId: this.createdGameId, playerId: this.creatorId },
@@ -71,7 +71,7 @@ export default {
 .body-token {
   position: relative;
   width: 30%;
-  height: 50%;
+  height: 45%;
   float: left;
 }
 
@@ -82,8 +82,8 @@ export default {
   bottom: 0;
   left: 0;
   margin: auto;
-  width: 85%;
-  height: 85%;
+  width: 100%;
+  height: 80%;
   background-color: rgba(204, 204, 204, 0.3);
   padding: 5% 5%;
   border-radius: 10px;

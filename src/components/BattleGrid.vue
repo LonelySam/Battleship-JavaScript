@@ -16,13 +16,13 @@ import { EventBus } from '@/services/event-bus';
 
 export default {
   name: 'BattleGrid',
-  data() {
+  data () {
     return {
       cols: 10,
       rows: 10,
     };
   },
-  mounted() {
+  mounted () {
     EventBus.$on('create-form', (cols, rows) => {
       if (cols !== undefined) {
         this.cols = cols;
@@ -38,7 +38,7 @@ export default {
 <style lang="css">
 .grid {
   width: 70%;
-  height: 100%;
+  height: 90%;
   padding: 1px;
   position: relative;
   float: right;
