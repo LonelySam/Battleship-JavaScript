@@ -37,6 +37,7 @@ export default {
       rows: 10,
       maxShips: 5,
       shipsArray: [],
+      drake: {},
     };
   },
   mounted () {
@@ -47,16 +48,43 @@ export default {
         containers.push(document.getElementById(`${i}-${j}`));
       }
     }
-    dragula(containers, {
-      accepts: function (el, target) {
-        console.log(el.getAttribute('id')); //id ship
-        console.log(target.getAttribute('id')); //id td
-        return true;
+    this.drake = dragula(containers, {
+      // Drops just once,
+      accepts: function (el, target, source, sibling) {
+        if(source.id === 'ships' && source === target) {
+            return false;
+        } else {
+            return true;
+        }
       },
+      // Prevents drag of buttons
+      invalid: function (sourceElement) {
+        return sourceElement.classList.contains('buttons'); 
+      },  
       copy: false,
+    });
+
+    const table = document.getElementById('grid-table');
+    const cellHeight = table.rows[0].cells[0].clientHeight;
+    const cellWidth = table.rows[0].cells[0].clientWidth;    
+
+    this.drake.on('drop', (shipElement, tdElement, source) => {
+        // console.log(source);
+        // console.log(shipElement);
+        // console.log(tdElement);
+        const tdId = tdElement.getAttribute('id');
+        const coordinate = tdId.split('-');
+        shipElement.firstChild.width = cellWidth * 5;
+        shipElement.firstChild.height = cellHeight;
+        const [y, x] = coordinate;
+        // this.validateIsInBoard(x, y, sizeShip)
     });
   },
   methods: {
+    validateIsInBoard(x, y, sizeShip) {
+      console.log("entro");
+      
+    },
     rotate () {
 
     },
@@ -95,7 +123,7 @@ export default {
 .drag-and-drop .content-left .board table {
   width: 100%;
   height: 100%;
-  table-layout: auto;
+  table-layout: fixed;
   border-collapse: collapse;
   text-align: center;
 }
@@ -135,7 +163,7 @@ export default {
 
 .drag-and-drop .content-right .list .ship {
   width: 100%;
-  height: 15%;
+  height: 10%;
 }
 
 .drag-and-drop .content-right .list .buttons button {
