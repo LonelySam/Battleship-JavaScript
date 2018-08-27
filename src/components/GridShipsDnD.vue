@@ -49,7 +49,7 @@ export default {
       }
     }
     this.drake = dragula(containers, {
-      // Drops just once,
+      // Drops only in the board
       accepts: function (el, target, source, sibling) {
         if(source.id === 'ships' && source === target) {
             return false;
