@@ -69,9 +69,6 @@ export default {
     const cellWidth = table.rows[0].cells[0].clientWidth;    
 
     this.drake.on('drop', (shipElement, tdElement, source) => {
-        // console.log(source);
-        // console.log(shipElement);
-        // console.log(tdElement);
         const tdId = tdElement.getAttribute('id');
         const coordinate = tdId.split('-');
         shipElement.firstChild.width = cellWidth * 5;
