@@ -1,8 +1,6 @@
 <template lang="html">
   <div class="header-game">
-    <div class="title">
-      <p>Battleship</p>
-    </div>
+      <p class="title">Battleship</p>
   </div>
 </template>
 
@@ -13,8 +11,13 @@ export default {
 </script>
 
 <style lang="css">
-.title {
+.header-game {
+  height: 10%;
+  border-bottom: 2px solid #115790;
   text-align: center;
+}
+
+.title {
   color: white;
   font-weight: bold;
   font-size: 36px;

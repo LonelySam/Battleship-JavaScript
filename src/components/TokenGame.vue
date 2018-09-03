@@ -6,7 +6,8 @@
         <label>Challange</label>
         <input type="text" name="token" v-bind:value=token>
       </div>
-      <button type="button" name="token" @click="joinGame(token)">Join</button>
+      <button @click="joinGame(token)" v-if="seenJoin">Join</button>
+      <button @click="setupShips()" v-if="seenSetup">Setup ships!</button>
     </div>
   </div>
 </template>
@@ -17,28 +18,50 @@ import JoinGame from '@/services/JoinGame';
 
 export default {
   name: 'TokenGame',
-  data() {
+  data () {
     return {
       message: '',
       token: '',
+      seenSetup: false,
+      seenJoin: true,
+      creatorId: '',
+      createdGameId: '',
     };
   },
-  mounted() {
-    this.message = 'Your friend challanged you to a battle? Join now and defeat them!';
-    EventBus.$on('receive-token', (data) => {
+  mounted () {
+    this.message =
+      'Your friend challanged you to a battle? Join now and defeat them!';
+    EventBus.$on('receive-token', data => {
       this.message = 'Share this link with your opponent.';
+      this.seenSetup = true;
+      this.seenJoin = false;
       this.token = data.session;
+      this.creatorId = data.playerId;
+      this.createdGameId = data.gameId;
     });
   },
   methods: {
-    joinGame(link) {
+    joinGame (link) {
       JoinGame.joinLink(link)
-        .then((response) => {
+        .then(response => {
           console.log(response.data);
+          this.$router.push({
+            name: 'setupShip',
+            params: {
+              gameId: response.data.gameId,
+              playerId: response.data.playerId,
+            },
+          });
         })
-        .catch((error) => {
-          console.log(error);
+        .catch(error => {
+          console.error(error);
         });
+    },
+    setupShips () {
+      this.$router.push({
+        name: 'setupShip',
+        params: { gameId: this.createdGameId, playerId: this.creatorId },
+      });
     },
   },
 };
@@ -48,8 +71,7 @@ export default {
 .body-token {
   position: relative;
   width: 30%;
-  height: 50%;
-  display: inline-block;
+  height: 45%;
   float: left;
 }
 
@@ -60,8 +82,8 @@ export default {
   bottom: 0;
   left: 0;
   margin: auto;
-  width: 85%;
-  height: 85%;
+  width: 100%;
+  height: 80%;
   background-color: rgba(204, 204, 204, 0.3);
   padding: 5% 5%;
   border-radius: 10px;
@@ -98,7 +120,7 @@ export default {
   border: none;
   border-radius: 5px;
   margin-left: 10px;
-  background-color: #0F2C44;
+  background-color: #0f2c44;
   color: white;
   width: 30%;
 }

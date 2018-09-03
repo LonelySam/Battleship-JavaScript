@@ -2,8 +2,9 @@
   <div class="grid">
     <div class="board">
       <table id="grid-table">
-        <tr v-for="i in (1, height)">
-          <td v-for="j in (1, width)"></td>
+        <tr v-for="(row) in rows" v-bind:key="row">
+          <td v-for="(col) in cols" v-bind:key="col">
+          </td>
         </tr>
       </table>
     </div>
@@ -15,21 +16,19 @@ import { EventBus } from '@/services/event-bus';
 
 export default {
   name: 'BattleGrid',
-  data() {
+  data () {
     return {
-      width: 10,
-      height: 10,
+      cols: 10,
+      rows: 10,
     };
   },
-  mounted() {
-    EventBus.$on('create-form', (width, height) => {
-      console.log(width);
-      console.log(height);
-      if (width !== undefined) {
-        this.width = width;
+  mounted () {
+    EventBus.$on('create-form', (cols, rows) => {
+      if (cols !== undefined) {
+        this.cols = cols;
       }
-      if (height !== undefined) {
-        this.height = height;
+      if (rows !== undefined) {
+        this.rows = rows;
       }
     });
   },
@@ -39,8 +38,7 @@ export default {
 <style lang="css">
 .grid {
   width: 70%;
-  height: 100%;
-  display: inline-block;
+  height: 90%;
   padding: 1px;
   position: relative;
   float: right;
@@ -58,7 +56,6 @@ export default {
   background-color: rgba(204, 204, 204, 0.3);
 }
 
-
 .grid .board table {
   width: 100%;
   height: 100%;
@@ -66,7 +63,7 @@ export default {
 }
 
 .grid .board table td {
-  border: 3px solid #0B2133;
+  border: 3px solid #0b2133;
   color: white;
 }
 </style>

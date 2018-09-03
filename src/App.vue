@@ -21,8 +21,6 @@ html, body {
 #app {
   background-color: #0F2C44;
   font-family: 'Exo', sans-serif;
-  /* height: 750px; */
-  /* max-height: 750px; */
   height: 100%;
   width: 100%;
   font-size: 14px;
